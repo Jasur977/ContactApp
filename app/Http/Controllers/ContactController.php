@@ -37,9 +37,11 @@ class ContactController extends Controller
        return redirect()->route('contacts.index')->with('message', "Contact has been added successfully");
     }
 
-    public function edit($id){
-        $contact = Contact::findOrFail($id);
-        $companies= Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+    public function edit(Contact $contact, Request $request){
+//        $contact = Contact::findOrFail($id);
+//        $companies= Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+
+        $companies = Company::userCompanies();
         return view('contacts.edit', compact('companies', 'contact'));
 
     }
@@ -61,6 +63,12 @@ class ContactController extends Controller
     public function show($id){
         $contact =Contact::findOrFail($id);
         return view('contacts.show', compact('contact'));
+    }
+
+    public function destroy($id){
+        $contact= Contact::findOrFail($id);
+        $contact->delete();
+        return back()->with('message', "Contact has been deleted successfully");
     }
 
 
