@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function index(){
-        $companies= Company::orderBy('name')->pluck('name', 'id') ->prepend('All Companies', '');
-        $contacts=Contact::latestFirst()->paginate(10);
-        return view('contacts.index', compact('contacts', 'companies'));
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
 
+    public function index(Request $request)
+    {
+        // DB::enableQueryLog();
+        // $companies = $this->userCompanies();
+        $companies = Company::userCompanies();
+        $contacts = $request->user()->contacts()->with('company')->latestFirst()->paginate(10);
+        // dd(DB::getQueryLog());
+        return view('contacts.index', compact('contacts', 'companies'));
     }
 
     public function create(){

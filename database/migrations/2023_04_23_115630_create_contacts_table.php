@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('address');
 
             $table->timestamps();
+            $table->foreignId('user_id')->constrained;
             $table->foreignId('company_id')->constrained;
 
 

@@ -11,8 +11,8 @@ class Contact extends Model
 {
     use HasFactory;
     protected $fillable=['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
-    public $filterColumns = ['company_id'];
-    public $searchColumns = ['first_name', 'last_name', 'email', 'company.name'];
+    public array $filterColumns = ['company_id'];
+    public array $searchColumns = ['first_name', 'last_name', 'email', 'company.name'];
 
     public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
